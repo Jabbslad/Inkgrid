@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Press — Inkgrid</title>
+  <meta name="description" content="Inkgrid compositor: press a photograph into characters or a halftone.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23f4ead8' width='32' height='32'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%231a1410' stroke-width='1.6'/%3E%3Cpath fill='%23b42318' d='M16 7 L23 16 L16 25 L9 16 Z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-editor">
+  <header class="mast">
+    <a class="wordmark" href="index.html">Inkgrid</a>
+    <p class="mast-note">Compositor</p>
+    <div class="mast-actions">
+      <button type="button" class="btn btn-ghost" id="loadBtn">Load plate</button>
+      <input type="file" id="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+      <button type="button" class="btn btn-ink" id="exportBtn">Export PNG</button>
+    </div>
+  </header>
+
+  <div class="editor">
+    <aside class="ticket" aria-label="Job ticket">
+      <p class="ticket-no">Job <span>001</span></p>
+
+      <fieldset>
+        <legend>Measure</legend>
+        <label class="slider-label" for="cellSize">
+          <span>Cell size</span>
+          <output id="cellOut" for="cellSize">10</output>
+        </label>
+        <input type="range" id="cellSize" min="4" max="28" step="1" value="10">
+      </fieldset>
+
+      <fieldset>
+        <legend>Exposure</legend>
+        <label class="slider-label" for="brightness">
+          <span>Brightness</span>
+          <output id="brightOut" for="brightness">0</output>
+        </label>
+        <input type="range" id="brightness" min="-80" max="80" step="1" value="0">
+        <label class="slider-label" for="contrast">
+          <span>Contrast</span>
+          <output id="contrastOut" for="contrast">0</output>
+        </label>
+        <input type="range" id="contrast" min="-80" max="80" step="1" value="0">
+        <label class="check">
+          <input type="checkbox" id="invert">
+          <span>Invert</span>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Face</legend>
+        <label class="choice">
+          <input type="radio" name="ramp" value="press" checked>
+          <span><strong>Press</strong> — heavy ink</span>
+        </label>
+        <label class="choice">
+          <input type="radio" name="ramp" value="sparse">
+          <span><strong>Sparse</strong> — a light kiss</span>
+        </label>
+        <label class="choice">
+          <input type="radio" name="ramp" value="block">
+          <span><strong>Block</strong> — wood type</span>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Proof</legend>
+        <label class="choice">
+          <input type="radio" name="mode" value="characters" checked>
+          <span>Characters</span>
+        </label>
+        <label class="choice">
+          <input type="radio" name="mode" value="halftone">
+          <span>Halftone</span>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Stock</legend>
+        <label class="choice">
+          <input type="radio" name="ground" value="paper" checked>
+          <span>Paper</span>
+        </label>
+        <label class="choice">
+          <input type="radio" name="ground" value="ink">
+          <span>Ink</span>
+        </label>
+        <label class="choice">
+          <input type="radio" name="ground" value="transparent">
+          <span>Transparent</span>
+        </label>
+      </fieldset>
+
+      <div class="ticket-foot">
+        <button type="button" class="btn btn-stamp" id="copyBtn">Copy type</button>
+        <p class="ticket-status" id="status">House mark</p>
+      </div>
+    </aside>
+
+    <main class="stage" id="stage" tabindex="0">
+      <div class="stage-frame">
+        <canvas id="preview" width="720" height="720" aria-label="Live proof"></canvas>
+      </div>
+      <p class="drop-hint" id="hint">Drop a plate here, or click to load · jpg, png, webp, gif</p>
+    </main>
+  </div>
+
+  <script src="editor.js"></script>
+</body>
+</html>
