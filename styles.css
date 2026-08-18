@@ -1,0 +1,502 @@
+/* Inkgrid — letterpress shop, not a SaaS dashboard */
+
+:root {
+  --paper: #f4ead8;
+  --paper-deep: #e8d6b8;
+  --paper-edge: #d8c4a4;
+  --ink: #1a1410;
+  --ink-soft: #5a5248;
+  --ink-faint: #8a7e70;
+  --stamp: #b42318;
+  --stamp-deep: #8e1a12;
+  --rule: #cbb89a;
+  --display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --mono: ui-monospace, Menlo, "SF Mono", Consolas, "Liberation Mono", monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  color: var(--ink);
+  font-family: var(--display);
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(180, 35, 24, 0.045), transparent 55%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(26, 20, 16, 0.018) 3px,
+      rgba(26, 20, 16, 0.018) 4px
+    );
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+/* —— Landing —— */
+
+.page-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1.25rem 4rem;
+}
+
+.sheet {
+  width: min(38rem, 100%);
+  text-align: center;
+  padding: 2.75rem 2rem 2.25rem;
+  border: 1px solid var(--ink);
+  box-shadow:
+    0 0 0 6px var(--paper),
+    0 0 0 7px var(--ink);
+  background:
+    linear-gradient(180deg, rgba(255, 248, 234, 0.55), transparent 28%),
+    var(--paper);
+}
+
+.eyebrow {
+  margin: 0 0 1.1rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--stamp);
+}
+
+.rule {
+  border: 0;
+  height: 0;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  margin: 0 auto 1.75rem;
+  width: 100%;
+}
+
+.rule-light {
+  border-top: 1px solid var(--rule);
+  border-bottom: 0;
+  margin: 2rem auto 1rem;
+}
+
+.home-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.printers-mark {
+  position: relative;
+  width: 4.25rem;
+  height: 4.25rem;
+}
+
+.mark-ring,
+.mark-diamond,
+.mark-dot {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.mark-ring {
+  width: 4.25rem;
+  height: 4.25rem;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+
+.mark-diamond {
+  width: 1.85rem;
+  height: 1.85rem;
+  background: var(--stamp);
+  transform: rotate(45deg);
+}
+
+.mark-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--paper);
+  border-radius: 50%;
+}
+
+.wordmark-hero {
+  margin: 0;
+  font-size: clamp(3.4rem, 12vw, 5.4rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+}
+
+.lede {
+  margin: 1.35rem 0 0;
+  font-size: clamp(1.2rem, 3vw, 1.45rem);
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+.standfirst {
+  margin: 0.85rem auto 0;
+  max-width: 28rem;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+}
+
+.cta-wrap {
+  margin: 2rem 0 0;
+}
+
+.cta {
+  display: inline-block;
+  padding: 0.72em 1.7em 0.68em;
+  background: var(--stamp);
+  color: var(--paper);
+  text-decoration: none;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: var(--stamp-deep);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
+  outline: none;
+}
+
+.privacy {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.colophon {
+  margin: 1.35rem 0 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+.colophon-sep {
+  font-style: normal;
+}
+
+/* —— Editor chrome —— */
+
+.page-editor {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mast {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 2px solid var(--ink);
+  background: var(--paper);
+}
+
+.wordmark {
+  font-size: 1.45rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.wordmark:hover,
+.wordmark:focus-visible {
+  color: var(--stamp);
+  outline: none;
+}
+
+.mast-note {
+  margin: 0;
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.mast-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  padding: 0.38em 0.85em;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  line-height: 1.3;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+  outline: none;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-ink {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn-ink:hover,
+.btn-ink:focus-visible {
+  background: var(--stamp);
+  border-color: var(--stamp);
+}
+
+.btn-stamp {
+  width: 100%;
+  background: var(--stamp);
+  border-color: var(--stamp);
+  color: var(--paper);
+  padding: 0.65em 0.85em;
+}
+
+.btn-stamp:hover,
+.btn-stamp:focus-visible {
+  background: var(--stamp-deep);
+  border-color: var(--stamp-deep);
+  color: var(--paper);
+}
+
+.btn-ghost {
+  background: var(--paper);
+}
+
+/* —— Ticket + stage —— */
+
+.editor {
+  display: grid;
+  grid-template-columns: 17.5rem 1fr;
+  flex: 1;
+  min-height: 0;
+}
+
+.ticket {
+  border-right: 1px solid var(--ink);
+  padding: 1.1rem 1.15rem 1.4rem;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 6px,
+      rgba(26, 20, 16, 0.04) 6px,
+      rgba(26, 20, 16, 0.04) 7px
+    ),
+    var(--paper-deep);
+  overflow: auto;
+}
+
+.ticket-no {
+  margin: 0 0 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--stamp);
+}
+
+.ticket-no span {
+  letter-spacing: 0.08em;
+}
+
+fieldset {
+  border: 0;
+  margin: 0 0 1.15rem;
+  padding: 0 0 1.05rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+legend {
+  padding: 0;
+  margin: 0 0 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.92rem;
+  margin: 0.35rem 0 0.15rem;
+}
+
+.slider-label output {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--stamp);
+  margin: 0 0 0.45rem;
+}
+
+.check,
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.28rem 0;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.check input,
+.choice input {
+  margin: 0.28rem 0 0;
+  accent-color: var(--stamp);
+}
+
+.choice strong {
+  font-weight: 600;
+}
+
+.choice span {
+  color: var(--ink-soft);
+}
+
+.choice strong {
+  color: var(--ink);
+}
+
+.ticket-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.ticket-status {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 1.5rem;
+  min-height: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.stage.is-drop {
+  background: rgba(180, 35, 24, 0.06);
+}
+
+.stage:focus-visible .stage-frame {
+  outline: 2px solid var(--stamp);
+  outline-offset: 4px;
+}
+
+.stage-frame {
+  max-width: 100%;
+  max-height: calc(100vh - 9.5rem);
+  border: 1px solid var(--ink);
+  background:
+    linear-gradient(45deg, var(--paper-edge) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--paper-edge) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--paper-edge) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--paper-edge) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  box-shadow: 6px 8px 0 rgba(26, 20, 16, 0.08);
+}
+
+#preview {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 9.5rem);
+  vertical-align: top;
+}
+
+.drop-hint {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  text-align: center;
+}
+
+@media (max-width: 820px) {
+  .editor {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket {
+    border-right: 0;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .mast {
+    flex-wrap: wrap;
+  }
+
+  .sheet {
+    box-shadow:
+      0 0 0 4px var(--paper),
+      0 0 0 5px var(--ink);
+    padding: 2rem 1.25rem 1.75rem;
+  }
+}
