@@ -1,6 +1,6 @@
 # Inkgrid
 
-Inkgrid is a small compositor for the browser. Load a photograph and press it into a grid of type, or a field of ink dots. Two proofs only: **Characters** and **Halftone**.
+Inkgrid is a small compositor for the browser. Load a photograph and press it into a grid of type, a field of ink dots, or a 1-bit dither screen. Three proofs: **Characters**, **Halftone**, and **Dither** (error diffusion or an ordered Bayer screen).
 
 It is a static site — four files of HTML, CSS, and JavaScript. No build step, no packages.
 

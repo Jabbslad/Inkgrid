@@ -25,6 +25,7 @@
     invert: false,
     ramp: "press",
     mode: "characters",
+    screen: "error",
     ground: "paper",
     label: "House mark"
   };
@@ -215,6 +216,74 @@
     };
   }
 
+  var BAYER8 = [
+    0, 32, 8, 40, 2, 34, 10, 42,
+    48, 16, 56, 24, 50, 18, 58, 26,
+    12, 44, 4, 36, 14, 46, 6, 38,
+    60, 28, 52, 20, 62, 30, 54, 22,
+    3, 35, 11, 43, 1, 33, 9, 41,
+    51, 19, 59, 27, 49, 17, 57, 25,
+    15, 47, 7, 39, 13, 45, 5, 37,
+    63, 31, 55, 23, 61, 29, 53, 21
+  ];
+
+  function ditherError(values, cols, rows) {
+    var buf = new Float32Array(values);
+    var bits = new Uint8Array(cols * rows);
+    var x;
+    var y;
+    var i;
+    var old;
+    var ink;
+    var neu;
+    var err;
+
+    for (y = 0; y < rows; y++) {
+      for (x = 0; x < cols; x++) {
+        i = y * cols + x;
+        old = buf[i];
+        if (old < 0) old = 0;
+        if (old > 1) old = 1;
+        ink = old < 0.5 ? 1 : 0;
+        neu = ink ? 0 : 1;
+        err = old - neu;
+        bits[i] = ink;
+        if (x + 1 < cols) {
+          buf[i + 1] += err * (7 / 16);
+        }
+        if (y + 1 < rows) {
+          if (x > 0) {
+            buf[i + cols - 1] += err * (3 / 16);
+          }
+          buf[i + cols] += err * (5 / 16);
+          if (x + 1 < cols) {
+            buf[i + cols + 1] += err * (1 / 16);
+          }
+        }
+      }
+    }
+
+    return bits;
+  }
+
+  function ditherOrdered(values, cols, rows) {
+    var bits = new Uint8Array(cols * rows);
+    var x;
+    var y;
+    var i;
+    var t;
+
+    for (y = 0; y < rows; y++) {
+      for (x = 0; x < cols; x++) {
+        i = y * cols + x;
+        t = (BAYER8[(y % 8) * 8 + (x % 8)] + 0.5) / 64;
+        bits[i] = values[i] < t ? 1 : 0;
+      }
+    }
+
+    return bits;
+  }
+
   function glyphAt(glyphs, brightness) {
     var idx = Math.floor((1 - brightness) * glyphs.length);
     if (idx < 0) idx = 0;
@@ -240,6 +309,9 @@
     var ch;
     var r;
     var glyphs;
+    var bits;
+    var pad;
+    var size;
 
     if (fill) {
       ctx.fillStyle = fill;
@@ -264,7 +336,7 @@
           }
         }
       }
-    } else {
+    } else if (state.mode === "halftone") {
       for (y = 0; y < grid.rows; y++) {
         for (x = 0; x < grid.cols; x++) {
           v = grid.values[y * grid.cols + x];
@@ -273,6 +345,19 @@
             ctx.beginPath();
             ctx.arc(x * cell + cell / 2, y * cell + cell / 2, r, 0, Math.PI * 2);
             ctx.fill();
+          }
+        }
+      }
+    } else {
+      bits = state.screen === "ordered"
+        ? ditherOrdered(grid.values, grid.cols, grid.rows)
+        : ditherError(grid.values, grid.cols, grid.rows);
+      pad = cell * 0.08;
+      size = cell - pad * 2;
+      for (y = 0; y < grid.rows; y++) {
+        for (x = 0; x < grid.cols; x++) {
+          if (bits[y * grid.cols + x]) {
+            ctx.fillRect(x * cell + pad, y * cell + pad, size, size);
           }
         }
       }
@@ -398,6 +483,15 @@
       el.addEventListener("change", function () {
         if (el.checked) {
           state.mode = el.value;
+          render();
+        }
+      });
+    });
+
+    document.querySelectorAll('input[name="screen"]').forEach(function (el) {
+      el.addEventListener("change", function () {
+        if (el.checked) {
+          state.screen = el.value;
           render();
         }
       });
